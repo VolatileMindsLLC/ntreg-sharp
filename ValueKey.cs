@@ -26,17 +26,20 @@ namespace ntregsharp
 			this.ValueType = hive.ReadInt32();
 			
 			//flag and trash, two words -- wordplay is fun
+
 			hive.BaseStream.Position += 4;
 			
 			buf = hive.ReadBytes(this.NameLength);
 			this.Name = (this.NameLength == 0) ? "Default" : System.Text.Encoding.UTF8.GetString(buf);
-			
+
 			if (this.DataLength < 5)
 				this.Data = databuf;
 			else
 			{
 				hive.BaseStream.Position = 0x1000 + BitConverter.ToInt32(databuf, 0) + 0x04;
 				this.Data = hive.ReadBytes(this.DataLength);
+				if (this.ValueType == 1)
+					this.String = System.Text.Encoding.Unicode.GetString (this.Data);
 			}
 		}
 		
