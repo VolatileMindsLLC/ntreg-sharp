@@ -54,7 +54,7 @@ namespace ntregsharp
 			this.ChildNodes = new List<NodeKey> ();
 			if (this.LFRecordOffset != -1)
 			{
-				hive.BaseStream.Position = 0x1000 + this.LFRecordOffset + 0x04;
+				hive.BaseStream.Position = 4096 + this.LFRecordOffset + 4;
 
 				byte[] buf = hive.ReadBytes(2);
 
@@ -64,15 +64,16 @@ namespace ntregsharp
 
 					for (int i = 0; i < count; i++) {
 						long pos = hive.BaseStream.Position;
-						byte[] offsetBytes = hive.ReadBytes (4);
-						int offset = BitConverter.ToInt32 (offsetBytes, 0);
-						offset = 0x1000 + offset + 4;
-						hive.BaseStream.Position = offset;
-						byte[] rec = hive.ReadBytes(2);
+						int offset = BitConverter.ToInt32 (hive.ReadBytes (4), 0);
+						hive.BaseStream.Position =  4096 + offset + 4;
+						buf = hive.ReadBytes(2);
+
+						if (!(buf [0] == 0x6c && (buf [1] == 0x66 || buf [1] == 0x68))) 
+							throw new Exception ("Bad LF/LH record at: " + hive.BaseStream.Position);
 
 						ParseChildNodes (hive);
 
-						hive.BaseStream.Position = pos + 4;
+						hive.BaseStream.Position = pos + 4; //go to next record list
 					}
 				}
 				//lf or lh
@@ -91,8 +92,9 @@ namespace ntregsharp
 			{
 				hive.BaseStream.Position = topOfList + (i*8);
 				int newoffset = BitConverter.ToInt32(hive.ReadBytes(4),0);
-				byte[] check = hive.ReadBytes(4);
-				hive.BaseStream.Position = 0x1000 + newoffset + 0x04;
+				hive.BaseStream.Position += 4;
+				//byte[] check = hive.ReadBytes(4);
+				hive.BaseStream.Position = 4096 + newoffset + 4;
 				NodeKey nk = new NodeKey (hive) { ParentNodeKey = this };
 				this.ChildNodes.Add(nk);
 			}
@@ -104,13 +106,13 @@ namespace ntregsharp
 			this.ChildValues = new List<ValueKey>();
 			if (this.ValueListOffset != -1)
 			{
-				hive.BaseStream.Position = 0x1000 + this.ValueListOffset + 0x04;
+				hive.BaseStream.Position = 4096 + this.ValueListOffset + 4;
 
 				for (int i = 0; i < this.ValuesCount; i++)
 				{
-					hive.BaseStream.Position = 0x1000 + this.ValueListOffset + 0x04 + (i*4);
+					hive.BaseStream.Position = 4096 + this.ValueListOffset + 4 + (i*4);
 					int offset = BitConverter.ToInt32(hive.ReadBytes(4), 0);
-					hive.BaseStream.Position = 0x1000 + offset + 0x04;
+					hive.BaseStream.Position = 4096 + offset + 4;
 					this.ChildValues.Add(new ValueKey(hive));
 				}
 			}
