@@ -32,7 +32,7 @@ namespace ntregsharp
 					long timestamp = BitConverter.ToInt64(buf, 0);
 					this.WasExported = (timestamp == 0) ? true : false;
 					
-					//fast-forward
+					//fast-forward to first hbin
 					reader.BaseStream.Position += (0x1000 + 0x20 + 4)-reader.BaseStream.Position;
 					
 					this.RootKey = new NodeKey(reader);
@@ -41,9 +41,7 @@ namespace ntregsharp
 		}
 		
 		public string Filepath { get; set; }
-		
 		public NodeKey RootKey { get; set; }
-				
 		public bool WasExported { get; set; }
 	}
 }

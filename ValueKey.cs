@@ -24,8 +24,6 @@ namespace ntregsharp
 			byte[] databuf = hive.ReadBytes(4);
 			
 			this.ValueType = hive.ReadInt32();
-			
-			//flag and trash, two words -- wordplay is fun
 
 			hive.BaseStream.Position += 4;
 			
@@ -44,17 +42,11 @@ namespace ntregsharp
 		}
 		
 		public short NameLength { get; set; }
-		
 		public int DataLength { get; set; }
-		
 		public int DataOffset { get; set; }
-		
 		public int ValueType { get; set; }
-		
 		public string Name { get; set; }
-		
 		public byte[] Data { get; set; }
-		
 		public string String { get; set; }
 	}
 }
