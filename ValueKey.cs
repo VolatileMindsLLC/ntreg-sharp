@@ -64,6 +64,10 @@ namespace ntregsharp
 			if (data.Length > this.DataLength)
 				throw new Exception ("New data cannot be longer than old data currently.");
 
+			byte[] bytes = BitConverter.GetBytes (valueType);
+			hive.Position = this.AbsoluteOffset + 12;
+			hive.Write (bytes, 0, bytes.Length);
+
 			hive.Position = this.DataOffset;
 
 			int k = this.DataLength - data.Length;
