@@ -5,8 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ntreg-sharp", "ntreg-sharp.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "reg_key_reader", "reg_key_reader\reg_key_reader.csproj", "{074C1206-8191-4866-937B-AFE2051BFA8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "reg_key_editor", "reg_key_editor\reg_key_editor.csproj", "{F9ADD6A4-A4E1-4F37-87B6-604FD2491EFE}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{074C1206-8191-4866-937B-AFE2051BFA8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{074C1206-8191-4866-937B-AFE2051BFA8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{074C1206-8191-4866-937B-AFE2051BFA8D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F9ADD6A4-A4E1-4F37-87B6-604FD2491EFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F9ADD6A4-A4E1-4F37-87B6-604FD2491EFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F9ADD6A4-A4E1-4F37-87B6-604FD2491EFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F9ADD6A4-A4E1-4F37-87B6-604FD2491EFE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FD1EED35-1FDB-44BE-B76F-93ABA88C4E93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FD1EED35-1FDB-44BE-B76F-93ABA88C4E93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD1EED35-1FDB-44BE-B76F-93ABA88C4E93}.Release|Any CPU.ActiveCfg = Release|Any CPU
