@@ -35,7 +35,7 @@ namespace ntregsharp
 				this.DataOffset = this.AbsoluteOffset + 8;
 				this.Data = databuf;
 			} else {
-				hive.BaseStream.Position = 0x1000 + BitConverter.ToInt32 (databuf, 0) + 0x04;
+				hive.BaseStream.Position = 4096 + BitConverter.ToInt32 (databuf, 0) + 4;
 				this.DataOffset = hive.BaseStream.Position;
 				this.Data = hive.ReadBytes (this.DataLength);
 				if (this.ValueType == 1)
@@ -56,7 +56,6 @@ namespace ntregsharp
 
 			for (int i = 0; i < k; i++)
 				hive.WriteByte (0x00);
-
 		}
 
 		public void EditData (FileStream hive, byte[] data, int valueType)
