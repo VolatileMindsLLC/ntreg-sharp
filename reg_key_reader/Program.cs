@@ -8,7 +8,7 @@ namespace reg_key_reader
 	{
 		public static void Main (string[] args)
 		{
-			RegistryHive hive = new RegistryHive (args[0]);
+			RegistryHive hive = new RegistryHive (args [0]);
 
 			string path = "Microsoft|Windows|CurrentVersion|Component Based Servicing|Packages";
 			string[] paths = path.Split ('|');

@@ -8,40 +8,39 @@ namespace ntregsharp
 		public RegistryHive ()
 		{
 		}
-		
-		public RegistryHive(string file)
+
+		public RegistryHive (string file)
 		{
-			if (!File.Exists(file))
-				throw new FileNotFoundException();
+			if (!File.Exists (file))
+				throw new FileNotFoundException ();
 			
 			this.Filepath = file;
 			
-			using (FileStream stream = File.OpenRead(file))
-			{
-				using (BinaryReader reader = new BinaryReader(stream))
-				{
-					byte[] buf 
-					= reader.ReadBytes(4);
+			using (FileStream stream = File.OpenRead (file)) {
+				using (BinaryReader reader = new BinaryReader (stream)) {
+					byte[] buf = reader.ReadBytes (4);
 					
-					if (buf[0] != 'r' || buf[1] != 'e' || buf[2] != 'g' || buf[3] != 'f')
-						throw new NotSupportedException();
+					if (buf [0] != 'r' || buf [1] != 'e' || buf [2] != 'g' || buf [3] != 'f')
+						throw new NotSupportedException ();
 					
-					reader.ReadBytes(8);
-					buf = reader.ReadBytes(8);
+					reader.ReadBytes (8);
+					buf = reader.ReadBytes (8);
 					
-					long timestamp = BitConverter.ToInt64(buf, 0);
+					long timestamp = BitConverter.ToInt64 (buf, 0);
 					this.WasExported = (timestamp == 0) ? true : false;
 					
 					//fast-forward to first hbin
-					reader.BaseStream.Position += (0x1000 + 0x20 + 4)-reader.BaseStream.Position;
+					reader.BaseStream.Position += (0x1000 + 0x20 + 4) - reader.BaseStream.Position;
 					
-					this.RootKey = new NodeKey(reader);
+					this.RootKey = new NodeKey (reader);
 				}
 			}
 		}
-		
+
 		public string Filepath { get; set; }
+
 		public NodeKey RootKey { get; set; }
+
 		public bool WasExported { get; set; }
 	}
 }
