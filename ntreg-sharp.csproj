@@ -37,4 +37,7 @@
     <Compile Include="ValueKey.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <None Include="README.md" />
+  </ItemGroup>
 </Project>
