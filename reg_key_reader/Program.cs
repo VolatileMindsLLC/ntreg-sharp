@@ -10,7 +10,7 @@ namespace reg_key_reader
 		{
 			RegistryHive hive = new RegistryHive (args[0]);
 
-			string path = "Microsoft|Windows|CurrentVersion|Component Based Servicing|Snakes" + char.MinValue + char.MinValue;
+			string path = "Microsoft|Windows|CurrentVersion|Component Based Servicing|Packages";
 			string[] paths = path.Split ('|');
 
 			int i = 0;
@@ -30,9 +30,9 @@ namespace reg_key_reader
 				i++;
 			}
 
-			using (FileStream stream = File.Open (hive.Filepath, FileMode.Open)) {
-				key.EditNodeName (stream, "Snakes");
-			}
+			//using (FileStream stream = File.Open (hive.Filepath, FileMode.Open)) {
+			//	key.EditNodeName (stream, "Packages");
+			//}
 
 			Console.WriteLine (key.Name);
 

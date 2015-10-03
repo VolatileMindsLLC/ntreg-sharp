@@ -73,10 +73,10 @@ namespace ntregsharp
 				hive.WriteByte (0x00);
 		}
 
-		public int AbsoluteOffset { get; set; }
+		public long AbsoluteOffset { get; set; }
 		public short NameLength { get; set; }
 		public int DataLength { get; set; }
-		public int DataOffset { get; set; }
+		public long DataOffset { get; set; }
 		public int ValueType { get; set; }
 		public string Name { get; set; }
 		public byte[] Data { get; set; }
