@@ -14,13 +14,43 @@ namespace ntregsharp
 			ReadChildValues (hive);
 		}
 
+		public void EditNodeName(FileStream hive, string newName){
+			byte[] name = System.Text.Encoding.UTF8.GetBytes(System.Text.Encoding.UTF8.GetString(System.Text.Encoding.ASCII.GetBytes (newName)));
+			if (name.Length > this.NameLength)
+				throw new Exception ("Strings larger than the original are not currently supported");
+
+			//byte[] length = BitConverter.GetBytes ((short)newName.Length);
+
+			//I need to figure out what this actual math is and make it one line
+			//I stole it from below when I must have been smarter/drunk
+			hive.Position = this.AbsoluteOffset + 52;
+			hive.Position += (this.AbsoluteOffset + 72) - hive.Position;
+
+			byte[] nameLenBytes = new byte[] { (byte)hive.ReadByte (), (byte)hive.ReadByte () };
+			short curLength = BitConverter.ToInt16(nameLenBytes,0);
+
+			if (curLength != this.NameLength)
+				throw new Exception ("Error in reading");
+
+			hive.Position += 2;
+
+			int k = this.NameLength - name.Length;
+			hive.Write (name, 0, name.Length);
+
+			for (int i = 0; i < k; i++)
+				hive.WriteByte (0x00);
+		}
+
 		private void ReadNodeStructure(BinaryReader hive) {
+
+			this.AbsoluteOffset = hive.BaseStream.Position;
+
 			byte[] buf = hive.ReadBytes(4);
 
 			if (buf[0] != 110 || buf[1] != 107)
 				throw new NotSupportedException("Bad nk header");
 
-			long startingOffset = hive.BaseStream.Position;
+			long startingOffset = this.AbsoluteOffset + 4;
 			this.IsRootKey = (buf[2] == 0x2c) ? true : false;
 
 			this.Timestamp = DateTime.FromFileTime(BitConverter.ToInt64(hive.ReadBytes(8), 0));
@@ -41,12 +71,14 @@ namespace ntregsharp
 			this.SecurityKeyOffset = BitConverter.ToInt32(hive.ReadBytes (4),0);
 			this.ClassnameOffset = BitConverter.ToInt32(hive.ReadBytes (4),0);
 
-			hive.BaseStream.Position += (startingOffset + 0x0044) - hive.BaseStream.Position;
+			hive.BaseStream.Position += (startingOffset + 68) - hive.BaseStream.Position;
 
 			this.NameLength = BitConverter.ToInt16(hive.ReadBytes (2),0);
 			this.ClassnameLength = BitConverter.ToInt16(hive.ReadBytes (2),0);
 
 			buf = hive.ReadBytes(this.NameLength);
+
+
 			this.Name = System.Text.Encoding.UTF8.GetString(buf);
 		}
 
@@ -118,6 +150,7 @@ namespace ntregsharp
 			}
 		}
 
+		public long AbsoluteOffset { get; set; }
 		public List<NodeKey> ChildNodes { get; set; }
 		public List<ValueKey> ChildValues { get; set; }
 		public DateTime Timestamp { get; set; }

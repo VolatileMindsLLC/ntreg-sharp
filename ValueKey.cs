@@ -20,7 +20,7 @@ namespace ntregsharp
 			this.DataLength
 				 = BitConverter.ToInt32(hive.ReadBytes(4),0);
 			
-			//dataoffset
+			//dataoffset, unless data is stored here
 			byte[] databuf = hive.ReadBytes(4);
 			
 			this.ValueType = hive.ReadInt32();
@@ -40,7 +40,15 @@ namespace ntregsharp
 					this.String = System.Text.Encoding.Unicode.GetString (this.Data);
 			}
 		}
-		
+
+		public void EditName(FileStream hive, string newName){
+		}
+
+		public void EditData(FileStream hive, byte[] data, int valueType) {
+			
+		}
+
+		public int AbsoluteOffset { get; set; }
 		public short NameLength { get; set; }
 		public int DataLength { get; set; }
 		public int DataOffset { get; set; }

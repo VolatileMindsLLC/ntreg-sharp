@@ -1,5 +1,6 @@
 ﻿using System;
 using ntregsharp;
+using System.IO;
 
 namespace reg_key_reader
 {
@@ -9,7 +10,7 @@ namespace reg_key_reader
 		{
 			RegistryHive hive = new RegistryHive (args[0]);
 
-			string path = "Microsoft|Windows|CurrentVersion|Component Based Servicing|Packages";
+			string path = "Microsoft|Windows|CurrentVersion|Component Based Servicing|Snakes" + char.MinValue + char.MinValue;
 			string[] paths = path.Split ('|');
 
 			int i = 0;
@@ -23,10 +24,14 @@ namespace reg_key_reader
 					}
 				}
 
-				if (i == paths.Length-1)
+				if (i == paths.Length - 1)
 					break;
 				
 				i++;
+			}
+
+			using (FileStream stream = File.Open (hive.Filepath, FileMode.Open)) {
+				key.EditNodeName (stream, "Snakes");
 			}
 
 			Console.WriteLine (key.Name);
