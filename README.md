@@ -11,4 +11,4 @@ Write support is basically experimental, and has a few caveats:
 2) If the string or data is less than the original, null bytes are appended.
 
 
-I call this lazy writing, because the real way to do this is to update the node and value key data lengths AND the data itself, which requires expanding or contracting the size of the original hive. This is a bit more complicated. For most of my purposes, this lazy-write method has worked well.
+I call this lazy writing, because the real way to do this is to update the node and value key data lengths AND the data itself, which requires expanding or contracting the size of the original hive. This is a bit more complicated. For most of my purposes, this lazy-write method has worked well. For instance, NTLM hashes are all the same size. :)
